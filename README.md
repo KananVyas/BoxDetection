@@ -10,3 +10,5 @@ Now it should be done accurately for all images.
 
 This algorithm helps to detect every boxes accurately and save it in a "Cropped" folder.The code is shown in box_detection.py 
 and the test image is "41.jpg".
+
+you can see the medium blog for this code: https://medium.com/@kananvyas/a-box-detection-algorithm-for-any-image-containing-boxes-756c15d7ed26
