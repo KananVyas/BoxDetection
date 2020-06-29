@@ -24,15 +24,20 @@ def sort_contours(cnts, method="left-to-right"):
     # return the list of sorted contours and bounding boxes
     return (cnts, boundingBoxes)
 
+
+#Functon for extracting the box
 def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
+    print("Reading image..")
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
     (thresh, img_bin) = cv2.threshold(img, 128, 255,
                                       cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # Thresholding the image
     img_bin = 255-img_bin  # Invert the image
 
-    cv2.imwrite("Image_bin.jpg",img_bin)
-   
+    print("Storing binary image to Images/Image_bin.jpg..")
+    cv2.imwrite("Images/Image_bin.jpg",img_bin)
+
+    print("Applying Morphological Operations..")
     # Defining a kernel length
     kernel_length = np.array(img).shape[1]//40
      
@@ -46,12 +51,12 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     # Morphological operation to detect verticle lines from an image
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=3)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=3)
-    cv2.imwrite("verticle_lines.jpg",verticle_lines_img)
+    cv2.imwrite("Images/verticle_lines.jpg",verticle_lines_img)
 
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv2.erode(img_bin, hori_kernel, iterations=3)
     horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=3)
-    cv2.imwrite("horizontal_lines.jpg",horizontal_lines_img)
+    cv2.imwrite("Images/horizontal_lines.jpg",horizontal_lines_img)
 
     # Weighting parameters, this will decide the quantity of an image to be added to make a new image.
     alpha = 0.5
@@ -63,12 +68,15 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
     # For Debugging
     # Enable this line to see verticle and horizontal lines in the image which is used to find boxes
-    cv2.imwrite("img_final_bin.jpg",img_final_bin)
+    print("Binary image which only contains boxes: Images/img_final_bin.jpg")
+    cv2.imwrite("Images/img_final_bin.jpg",img_final_bin)
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(
         img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     # Sort all the contours by top to bottom.
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
+
+    print("Output stored in Output directiory!")
 
     idx = 0
     for c in contours:
@@ -87,4 +95,6 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     # cv2.imwrite("./Temp/img_contour.jpg", img)
 
 
-box_extraction("41.jpg", "./Cropped/")
+
+#Input image path and out folder
+box_extraction("41.jpg", "./Output/")
