@@ -17,7 +17,7 @@ This algorithm helps to detect every boxes accurately and save it in a `/Output/
 **USAGE:**
  - Run `python src/box_detection.py`
  - You can see the output crops on `/Output` folder
- ![alt text](Output/1.png)
+
  ![alt text](Output/2.png)
 
 You can also read the medium article for understanding about the algorithm: https://medium.com/@kananvyas/a-box-detection-algorithm-for-any-image-containing-boxes-756c15d7ed26
